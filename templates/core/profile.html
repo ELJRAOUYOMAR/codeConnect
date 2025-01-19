@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card animate__animated animate__fadeIn">
+            <div class="card-body text-center">
+                {% if profile.photo %}
+                    <img src="{{ profile.photo.url }}" alt="Profile photo" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                {% endif %}
+                <h3>{{ user.username }}</h3>
+                <p class="text-muted">{{ user.email }}</p>
+                <p>{{ profile.bio }}</p>
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card animate__animated animate__fadeIn">
+            <div class="card-body">
+                <h4>My Problems</h4>
+                <div class="list-group">
+                    {% for problem in user.problem_set.all %}
+                    <a href="{% url 'problem_detail' problem.pk %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ problem.title }}</h5>
+                            <small>{{ problem.created_at|date }}</small>
+                        </div>
+                        <p class="mb-1">{{ problem.description|truncatewords:30 }}</p>
+                        <small>{{ problem.language }}</small>
+                    </a>
+                    {% empty %}
+                    <p>You haven't posted any problems yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

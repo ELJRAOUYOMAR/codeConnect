@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Latest Problems</h1>
+        <div class="row">
+            {% for problem in problems %}
+            <div class="col-md-6 mb-4">
+                <div class="card animate__animated animate__fadeIn">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ problem.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ problem.language }}</h6>
+                        <p class="card-text">{{ problem.description|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                Posted by {{ problem.created_by.username }} on {{ problem.created_at|date }}
+                            </small>
+                            <div>
+                                <span class="badge bg-secondary me-2">{{ problem.views }} views</span>
+                                <a href="{% url 'problem_detail' problem.pk %}" class="btn btn-primary btn-sm">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p>No problems posted yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

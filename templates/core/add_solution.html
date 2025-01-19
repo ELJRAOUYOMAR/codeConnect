@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Add Solution - {{ problem.title }}{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Problem: {{ problem.title }}</h4>
+                    <div class="card-text markdown-content">{{ problem.description }}</div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Your Solution</h2>
+                    <form method="post" class="solution-form">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">Post Solution</button>
+                            <a href="{% url 'problem_detail' problem.pk problem.slug %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize markdown editor for solution content
+        new EasyMDE({
+            element: document.querySelector('.markdown-editor'),
+            spellChecker: false,
+            status: ['lines', 'words'],
+            minHeight: '150px',
+            toolbar: [
+                'bold', 'italic', 'heading', '|',
+                'quote', 'unordered-list', 'ordered-list', '|',
+                'link', '|',
+                'preview', 'side-by-side', 'fullscreen', '|',
+                'guide'
+            ]
+        });
+
+        // Initialize code editor
+        const codeEditor = document.querySelector('.code-editor');
+        if (codeEditor) {
+            codeEditor.style.fontFamily = 'monospace';
+            codeEditor.style.fontSize = '14px';
+            codeEditor.style.lineHeight = '1.4';
+            codeEditor.style.padding = '10px';
+            codeEditor.style.border = '1px solid #ccc';
+            codeEditor.style.borderRadius = '4px';
+            codeEditor.style.backgroundColor = '#f8f9fa';
+        }
+    });
+</script>
+{% endblock %}

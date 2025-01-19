@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ problem.title }}{% endblock %}
+
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <h1 class="mb-4">{{ problem.title }}</h1>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Language: {{ problem.language }}</h6>
+            <p class="card-text">{{ problem.description }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    Posted by {{ problem.created_by.username }} on {{ problem.created_at|date }}
+                </small>
+                <span class="badge bg-secondary">{{ problem.views }} views</span>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mb-3">Solutions ({{ solutions|length }})</h2>
+    {% if user.is_authenticated %}
+    <div class="mb-4">
+        <a href="{% url 'add_solution' problem.pk %}" class="btn btn-primary">
+            Add Solution
+        </a>
+    </div>
+    {% endif %}
+
+    {% for solution in solutions %}
+    <div class="card mb-3 animate__animated animate__fadeIn">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="flex-grow-1">
+                    {{ solution.content|linebreaks }}
+                </div>
+                <div class="text-center ms-3">
+                    <div class="votes">
+                        <span class="badge bg-primary">{{ solution.votes }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2">
+                <small class="text-muted">
+                    Posted by {{ solution.created_by.username }} on {{ solution.created_at|date }}
+                </small>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No solutions posted yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
