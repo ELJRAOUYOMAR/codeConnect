@@ -33,9 +33,12 @@
 <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize markdown editor for description
-        new EasyMDE({
-            element: document.querySelector('.markdown-editor'),
+        // Select the description textarea
+        const textarea = document.getElementById('id_description');
+
+        // Initialize EasyMDE
+        const easyMDE = new EasyMDE({
+            element: textarea,
             spellChecker: false,
             status: ['lines', 'words'],
             minHeight: '200px',
@@ -46,6 +49,15 @@
                 'preview', 'side-by-side', 'fullscreen', '|',
                 'guide'
             ]
+        });
+
+        // Remove 'required' attribute from hidden <textarea>
+        textarea.removeAttribute('required');
+
+        // Sync EasyMDE content back to the hidden <textarea> before submission
+        const form = document.querySelector('.problem-form');
+        form.addEventListener('submit', function() {
+            easyMDE.codemirror.save(); // Sync content from EasyMDE to <textarea>
         });
     });
 </script>

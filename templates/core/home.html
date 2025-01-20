@@ -20,7 +20,7 @@
                             </small>
                             <div>
                                 <span class="badge bg-secondary me-2">{{ problem.views }} views</span>
-                                <a href="{% url 'problem_detail' problem.pk %}" class="btn btn-primary btn-sm">
+                                <a href="{% url 'problem_detail' problem.pk problem.slug %}" class="btn btn-primary btn-sm">
                                     View Details
                                 </a>
                             </div>

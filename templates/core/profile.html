@@ -23,7 +23,7 @@
                 <h4>My Problems</h4>
                 <div class="list-group">
                     {% for problem in user.problem_set.all %}
-                    <a href="{% url 'problem_detail' problem.pk %}" class="list-group-item list-group-item-action">
+                    <a href="{% url 'problem_detail' problem.pk problem.slug %}" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{ problem.title }}</h5>
                             <small>{{ problem.created_at|date }}</small>

@@ -21,7 +21,7 @@
     <h2 class="mb-3">Solutions ({{ solutions|length }})</h2>
     {% if user.is_authenticated %}
     <div class="mb-4">
-        <a href="{% url 'add_solution' problem.pk %}" class="btn btn-primary">
+        <a href="{% url 'add_solution' problem.pk problem.slug%}" class="btn btn-primary">
             Add Solution
         </a>
     </div>

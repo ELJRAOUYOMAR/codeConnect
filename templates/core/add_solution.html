@@ -45,9 +45,10 @@
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize markdown editor for solution content
-        new EasyMDE({
-            element: document.querySelector('.markdown-editor'),
+        // Initialize EasyMDE for content
+        const textarea = document.getElementById('id_content');
+        const easyMDE = new EasyMDE({
+            element: textarea,
             spellChecker: false,
             status: ['lines', 'words'],
             minHeight: '150px',
@@ -60,17 +61,14 @@
             ]
         });
 
-        // Initialize code editor
-        const codeEditor = document.querySelector('.code-editor');
-        if (codeEditor) {
-            codeEditor.style.fontFamily = 'monospace';
-            codeEditor.style.fontSize = '14px';
-            codeEditor.style.lineHeight = '1.4';
-            codeEditor.style.padding = '10px';
-            codeEditor.style.border = '1px solid #ccc';
-            codeEditor.style.borderRadius = '4px';
-            codeEditor.style.backgroundColor = '#f8f9fa';
-        }
+        // Remove 'required' attribute from the hidden textarea
+        textarea.removeAttribute('required');
+
+        // Synchronize EasyMDE content with hidden <textarea> before form submission
+        const form = document.querySelector('.solution-form');
+        form.addEventListener('submit', function() {
+            easyMDE.codemirror.save(); // Force EasyMDE to save its content back to the hidden textarea
+        });
     });
 </script>
 {% endblock %}

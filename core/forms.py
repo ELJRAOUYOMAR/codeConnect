@@ -40,10 +40,13 @@ class SolutionForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'class': 'markdown-editor',
                 'rows': 6,
+                'required': True,  # Ensure the field is required
             }),
             'code_snippet': forms.Textarea(attrs={
                 'class': 'code-editor',
                 'rows': 10,
+                # 'required': True,
+                # 'id': 'id_content',
             }),
         }
 
