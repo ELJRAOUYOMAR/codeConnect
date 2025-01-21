@@ -17,7 +17,6 @@
             </div>
         </div>
     </div>
-
     <h2 class="mb-3">Solutions ({{ solutions|length }})</h2>
     {% if user.is_authenticated %}
     <div class="mb-4">
@@ -26,29 +25,28 @@
         </a>
     </div>
     {% endif %}
-
     {% for solution in solutions %}
-    <div class="card mb-3 animate__animated animate__fadeIn">
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start">
-                <div class="flex-grow-1">
-                    {{ solution.content|linebreaks }}
-                </div>
-                <div class="text-center ms-3">
-                    <div class="votes">
-                        <span class="badge bg-primary">{{ solution.votes }}</span>
+        <div class="card mb-3 animate__animated animate__fadeIn ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <a href="{% url 'solution_detail' solution.pk %}" class="text-decoration-none" style="color: #0D6EFD;">{{ solution.content|truncatewords:20 }}</a>
+                    </div>
+                    <div class="text-center ms-3">
+                        <div class="votes">
+                            <span class="badge bg-primary">{{ solution.votes }}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="mt-2">
-                <small class="text-muted">
-                    Posted by {{ solution.created_by.username }} on {{ solution.created_at|date }}
-                </small>
+                <div class="mt-2">
+                    <small class="text-muted">
+                        Posted by {{ solution.created_by.username }} on {{ solution.created_at|date }}
+                    </small>
+                </div>
             </div>
         </div>
-    </div>
-    {% empty %}
-    <p>No solutions posted yet.</p>
-    {% endfor %}
+        {% empty %}
+        <p>No solutions posted yet.</p>
+        {% endfor %}
 </div>
 {% endblock %}

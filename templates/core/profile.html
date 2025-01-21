@@ -13,6 +13,18 @@
                 <h3>{{ user.username }}</h3>
                 <p class="text-muted">{{ user.email }}</p>
                 <p>{{ profile.bio }}</p>
+                {% if profile.location %}
+                    <p><strong>Location:</strong> {{ profile.location }}</p>
+                {% endif %}
+                {% if profile.github_url %}
+                    <p><strong>GitHub:</strong> <a href="{{ profile.github_url }}" target="_blank">{{ profile.github_url }}</a></p>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                    <p><strong>LinkedIn:</strong> <a href="{{ profile.linkedin_url }}" target="_blank">{{ profile.linkedin_url }}</a></p>
+                {% endif %}
+                {% if profile.website %}
+                    <p><strong>Website:</strong> <a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></p>
+                {% endif %}
                 <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
             </div>
         </div>

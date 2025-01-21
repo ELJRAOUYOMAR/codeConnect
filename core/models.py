@@ -6,7 +6,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     avatar = models.URLField(blank=True)
-    photo = models.ImageField(upload_to='photos/users/%Y/%m/%d/')
+    photo = models.ImageField(upload_to='photos/users/%Y/%m/%d/', blank=True)
     reputation = models.IntegerField(default=0)
     github_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)
@@ -36,10 +36,10 @@ class Problem(models.Model):
         ('hard', 'Hard'),
     ]
     
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=2000)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    language = models.CharField(max_length=50)
+    language = models.CharField(max_length=200)
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='medium')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

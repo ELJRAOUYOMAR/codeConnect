@@ -50,14 +50,10 @@
                 'guide'
             ]
         });
-
-        // Remove 'required' attribute from hidden <textarea>
         textarea.removeAttribute('required');
-
-        // Sync EasyMDE content back to the hidden <textarea> before submission
         const form = document.querySelector('.problem-form');
         form.addEventListener('submit', function() {
-            easyMDE.codemirror.save(); // Sync content from EasyMDE to <textarea>
+            easyMDE.codemirror.save();
         });
     });
 </script>

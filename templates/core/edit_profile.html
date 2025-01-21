@@ -5,12 +5,14 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card animate__animated animate__fadeIn">
                 <div class="card-body">
                     <h4 class="card-title text-center">Edit Profile</h4>
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                        
+                        <!-- Username and Email Fields -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             {{ user_form.username }}
@@ -26,6 +28,26 @@
                         <div class="mb-3">
                             <label for="photo" class="form-label">Profile Photo</label>
                             {{ profile_form.photo }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Avatar URL</label>
+                            {{ profile_form.avatar }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="github_url" class="form-label">GitHub URL</label>
+                            {{ profile_form.github_url }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="linkedin_url" class="form-label">LinkedIn URL</label>
+                            {{ profile_form.linkedin_url }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="website" class="form-label">Website</label>
+                            {{ profile_form.website }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            {{ profile_form.location }}
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Save Changes</button>
                         <a href="{% url 'profile' %}" class="btn btn-secondary w-100 mt-2">Cancel</a>

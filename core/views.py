@@ -17,8 +17,6 @@ def home(request):
     problems = Problem.objects.annotate(
         solution_count=Count('solutions')
     ).select_related('created_by').prefetch_related('tags')
-    
-    # Filtering
     tag = request.GET.get('tag')
     difficulty = request.GET.get('difficulty')
     language = request.GET.get('language')
@@ -30,12 +28,10 @@ def home(request):
     if language:
         problems = problems.filter(language__icontains=language)
     
-    # Sorting
     sort = request.GET.get('sort', '-created_at')
     if sort in ['views', '-views', 'solution_count', '-solution_count', 'created_at', '-created_at']:
         problems = problems.order_by(sort)
     
-    # Pagination
     paginator = Paginator(problems, 10)
     page = request.GET.get('page')
     problems = paginator.get_page(page)
@@ -83,8 +79,10 @@ def profile(request):
     
     bookmarked_problems = request.user.bookmarked_problems.all()
     
+    profile = getattr(request.user, 'userprofile', None)
+    
     return render(request, 'core/profile.html', {
-        'profile': request.user.userprofile,
+        'profile': profile,
         'problems': user_problems,
         'solutions': user_solutions,
         'bookmarked_problems': bookmarked_problems,
@@ -94,11 +92,18 @@ def profile(request):
 def edit_profile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
+        
+        # create an empty userProfile if not exists
+        profile_instance = getattr(request.user, 'userprofile', None)
+        if profile_instance is None:
+            profile_instance = UserProfile(user=request.user)
+        
         profile_form = UserProfileForm(
             request.POST,
             request.FILES,
-            instance=request.user.userprofile
+            instance=profile_instance
         )
+        
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -106,7 +111,13 @@ def edit_profile(request):
             return redirect('profile')
     else:
         user_form = UserForm(instance=request.user)
-        profile_form = UserProfileForm(instance=request.user.userprofile)
+        # Handle the case where the user does not have a profile
+        profile_instance = getattr(request.user, 'userprofile', None)
+        if profile_instance is None:
+            profile_instance = UserProfile(user=request.user)
+        
+        profile_form = UserProfileForm(instance=profile_instance)
+    
     return render(request, 'core/edit_profile.html', {
         'user_form': user_form,
         'profile_form': profile_form
@@ -116,10 +127,8 @@ def problem_detail(request, pk, slug):
     problem = get_object_or_404(Problem, pk=pk, slug=slug)
     problem.views += 1
     problem.save()
-    
     solutions = problem.solutions.select_related('created_by').prefetch_related('comment_set')
     comments = problem.comment_set.select_related('created_by').order_by('created_at')
-    
     if request.method == 'POST' and request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
@@ -147,7 +156,7 @@ def create_problem(request):
             problem = form.save(commit=False)
             problem.created_by = request.user
             problem.save()
-            form.save_m2m()  # Save tags
+            form.save_m2m() # save tags
             messages.success(request, 'Your problem has been posted successfully.')
             return redirect('problem_detail', pk=problem.pk, slug=problem.slug)
     else:
@@ -171,6 +180,12 @@ def add_solution(request, pk, slug):
     return render(request, 'core/add_solution.html', {
         'form': form,
         'problem': problem
+    })
+
+def solution_detail(request, pk):
+    solution = get_object_or_404(Solution, pk=pk)
+    return render(request, 'core/solution_detail.html', {
+        'solution': solution
     })
 
 @login_required
@@ -197,7 +212,6 @@ def vote_solution(request, solution_id):
                 vote.value = value
                 vote.save()
         
-        # Update solution votes count
         solution.votes = Vote.objects.filter(solution=solution).aggregate(
             total=Sum('value')
         )['total'] or 0
@@ -234,17 +248,13 @@ def accept_solution(request, solution_id):
         solution = get_object_or_404(Solution, id=solution_id)
         if request.user != solution.problem.created_by:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
-        
         # Remove accepted status from other solutions
         Solution.objects.filter(problem=solution.problem).update(is_accepted=False)
-        
         solution.is_accepted = True
         solution.save()
-        
         # Update problem status
         solution.problem.is_solved = True
         solution.problem.save()
-        
         # Award reputation points
         solution.created_by.userprofile.reputation += 15
         solution.created_by.userprofile.save()

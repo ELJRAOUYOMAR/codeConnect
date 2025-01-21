@@ -45,7 +45,6 @@
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize EasyMDE for content
         const textarea = document.getElementById('id_content');
         const easyMDE = new EasyMDE({
             element: textarea,
@@ -60,14 +59,10 @@
                 'guide'
             ]
         });
-
-        // Remove 'required' attribute from the hidden textarea
         textarea.removeAttribute('required');
-
-        // Synchronize EasyMDE content with hidden <textarea> before form submission
         const form = document.querySelector('.solution-form');
         form.addEventListener('submit', function() {
-            easyMDE.codemirror.save(); // Force EasyMDE to save its content back to the hidden textarea
+            easyMDE.codemirror.save();
         });
     });
 </script>

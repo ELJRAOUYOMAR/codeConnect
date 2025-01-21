@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Solution: {{ solution.content }}{% endblock %}
+
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <h1 class="mb-5">{{ solution.content }}</h1>
+    {% if solution.content|length > 0 %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Solution Code</h5>
+            <div class="position-relative">
+                <pre id="codeSnippet" class="bg-dark text-light p-3 rounded">
+                    <code>{{ solution.code_snippet }}</code>
+                </pre>
+                <button id="copyButton" class="btn btn-secondary position-absolute" style="top: 10px; right: 10px;">Copy</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    // Get the button and code snippet elements
+    const copyButton = document.getElementById('copyButton');
+    const codeSnippet = document.getElementById('codeSnippet');
+    // Function to copy the code snippet
+    copyButton.addEventListener('click', function() {
+        const textToCopy = codeSnippet.innerText;
+        // Create a temporary textarea element to copy the text
+        const tempTextArea = document.createElement('textarea');
+        document.body.appendChild(tempTextArea);
+        tempTextArea.value = textToCopy;
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+        // Change button text to "Copied" and disable it temporarily
+        copyButton.innerText = 'Copied!';
+        copyButton.classList.add('btn-success');
+        copyButton.classList.remove('btn-secondary');
+        // Reset the button after 2 seconds
+        setTimeout(function() {
+            copyButton.innerText = 'Copy';
+            copyButton.classList.remove('btn-success');
+            copyButton.classList.add('btn-secondary');
+        }, 2000);
+    });
+</script>
+
+{% endblock %}
