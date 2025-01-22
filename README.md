@@ -86,36 +86,44 @@ python manage.py runserver
 Visit http://127.0.0.1:8000/ in your browser to see the project in action.
 
 ## Screenshots
-<!-- #### Home Page -->
 ![Home Page](screenshoots/home.png)  
-**Home Page**
+**Home Page**  
+---
 
 ![Sign up](screenshoots/signup.png)  
-**Sign Up**
+**Sign Up**  
+---
 
 ![Login](screenshoots/login.png)  
-**Login**
+**Login**  
+---
 
 ![Profile](screenshoots/profile.png)  
-**Profile**
+**Profile**  
+---
 
 ![Edit Profile](screenshoots/edit_profile.png)  
-**Edit Profile**
+**Edit Profile**  
+---
 
 ![View Detail](screenshoots/problem_detail.png)  
-**View Problem Details**
+**View Problem Details**  
+---
 
 ![Add Solution](screenshoots/add_solution.png)  
-**Add Solution**
+**Add Solution**  
+---
 
 ![Specific Solution](screenshoots/specific_solution.png)  
-**Specific Solution**
+**Specific Solution**  
+---
 
 ![Post New Problem](screenshoots/post_problem.png)  
-**Post New Problem**
+**Post New Problem**  
+---
 
 ![Search for a Specific Problem](screenshoots/search_in_problems.png)  
-**Search for a Specific Problem**
+**Search for a Specific Problem**  
+---
 
- 
 
