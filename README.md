@@ -137,3 +137,5 @@ Visit http://127.0.0.1:8000/ in your browser to see the project in action.
 ### A Personal Journey
 CodeConnect was built as an independent project by me to address the challenges I’ve faced when collaborating with others on programming problems. My goal was to create a platform where anyone can freely share knowledge and improve their skills. This project represents my dedication to both learning and helping others.
 
+### Suggestions for Customization
+This project is designed to be modular and extensible. You can easily enhance it by adding features like tags for problems, notifications for votes or new solutions, and user leaderboards. Feel free to adapt it to your needs or even contribute ideas to improve it further. you can also add an api(or your LLM model) to generate solutions using Ai.
