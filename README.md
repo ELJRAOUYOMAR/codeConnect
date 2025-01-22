@@ -134,4 +134,6 @@ Visit http://127.0.0.1:8000/ in your browser to see the project in action.
 ** database tables**  
 ---
 
+### A Personal Journey
+CodeConnect was built as an independent project by me to address the challenges I’ve faced when collaborating with others on programming problems. My goal was to create a platform where anyone can freely share knowledge and improve their skills. This project represents my dedication to both learning and helping others.
 
