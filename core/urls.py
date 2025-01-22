@@ -1,4 +1,6 @@
 """ used urls in the core app """
+
+
 from django.urls import path
 from . import views
 
