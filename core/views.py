@@ -224,7 +224,7 @@ def vote_solution(request, solution_id):
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@login_required
+'''@login_required
 def bookmark_problem(request, pk):
     if request.method == 'POST':
         problem = get_object_or_404(Problem, pk=pk)
@@ -241,6 +241,7 @@ def bookmark_problem(request, pk):
         })
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
+'''
 
 '''@login_required
 def accept_solution(request, solution_id):
