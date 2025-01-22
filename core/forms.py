@@ -1,3 +1,5 @@
+""" Forms for the core app. """
+
 from django import forms
 from django.contrib.auth.models import User
 from .models import Problem, Solution, UserProfile, Comment, Tag
