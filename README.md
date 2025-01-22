@@ -139,3 +139,6 @@ CodeConnect was built as an independent project by me to address the challenges 
 
 ### Suggestions for Customization
 This project is designed to be modular and extensible. You can easily enhance it by adding features like tags for problems, notifications for votes or new solutions, and user leaderboards. Feel free to adapt it to your needs or even contribute ideas to improve it further. you can also add an api(or your LLM model) to generate solutions using Ai.
+
+### Future Plans
+Moving forward, I plan to enhance the platform by integrating more advanced features, such as AI-based solution recommendations, real-time chat for collaboration, and analytics for problem trends. If you're inspired by this project, I encourage you to build your version and share your ideas.
