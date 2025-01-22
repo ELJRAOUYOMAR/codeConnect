@@ -87,17 +87,35 @@ Visit http://127.0.0.1:8000/ in your browser to see the project in action.
 
 ## Screenshots
 <!-- #### Home Page -->
-- ![Home Page](screenshoots/home.png)
-- ![Sign up](screenshoots/signup.png)
-- ![Login](screenshoots/login.png)
-- ![profile](screenshoots/profile.png)
-- ![edit profile](screenshoots/edit_profile.png)
-- ![view_detail](screenshoots/problem_detail.png) 
-- ![add solution](screenshoots/add_solution.png) 
-- ![specific solution](screenshoots/specific_solution.png)
-- ![post new problem](screenshoots/post_problem.png)
-- ![specific solution](screenshoots/specific_solution.png)
-- ![search for a specific problem](screenshoots/search_in_problems.png)
+![Home Page](screenshoots/home.png)  
+**Home Page**
+
+![Sign up](screenshoots/signup.png)  
+**Sign Up**
+
+![Login](screenshoots/login.png)  
+**Login**
+
+![Profile](screenshoots/profile.png)  
+**Profile**
+
+![Edit Profile](screenshoots/edit_profile.png)  
+**Edit Profile**
+
+![View Detail](screenshoots/problem_detail.png)  
+**View Problem Details**
+
+![Add Solution](screenshoots/add_solution.png)  
+**Add Solution**
+
+![Specific Solution](screenshoots/specific_solution.png)  
+**Specific Solution**
+
+![Post New Problem](screenshoots/post_problem.png)  
+**Post New Problem**
+
+![Search for a Specific Problem](screenshoots/search_in_problems.png)  
+**Search for a Specific Problem**
 
  
 
