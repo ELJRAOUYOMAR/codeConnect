@@ -97,7 +97,7 @@ Visit http://127.0.0.1:8000/ in your browser to see the project in action.
 - ![specific solution](screenshoots/specific_solution.png)
 - ![post new problem](screenshoots/post_problem.png)
 - ![specific solution](screenshoots/specific_solution.png)
-- ![search a problem](screenshoots/search_in_problems.png)
+- ![search for a specific problem](screenshoots/search_in_problems.png)
 
  
 
