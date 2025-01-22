@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,19 +7,40 @@
     <title>CodeConnect - {% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    <!-- Modal for displaying messages -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Search Result</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalMessageBody">
+                    <!-- Message will be dynamically inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">CodeConnect</a>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/codeconnect_logo.jpg' %}" alt="CodeConnect Logo" class="rounded-5" style="height: 60px; border: none;  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); background-color: rgba(255, 255, 255, 0.5);">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <form class="d-flex mx-auto" role="search" action="{% url 'search_problems' %}" method="GET">
+                <form class="d-flex mx-auto" role="search" id="searchForm" action="{% url 'search_problems' %}" method="GET">
                     <input class="form-control me-2" type="search" placeholder="Search problems..." id="searchInput">
-                    <div id="searchResults" class="position-absolute bg-white w-100 mt-5 rounded shadow-sm" style="display: none;"></div>
+                    <div id="searchResults" class="position-absolute bg-white w-100 mt-5 rounded shadow-sm z-2" style="display: none;"></div>
                 </form>
                 <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#problemModal">
                     Post a Problem
@@ -70,17 +92,26 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        let searchResults = [];
+    
         document.getElementById('searchInput').addEventListener('input', function(e) {
-            const query = e.target.value;
-            if (query.length > 2) {
-                fetch(`/search/?q=${query}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const resultsDiv = document.getElementById('searchResults');
-                        resultsDiv.innerHTML = '';
-                        resultsDiv.style.display = data.length ? 'block' : 'none';
-                        
-                        data.forEach(item => {
+            const query = e.target.value.trim();
+    
+            if (query.length === 0) {
+                document.getElementById('searchResults').style.display = 'none';
+                return;
+            }
+    
+            fetch(`/search/?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    searchResults = data.data || [];
+                    const resultsDiv = document.getElementById('searchResults');
+                    resultsDiv.innerHTML = '';
+    
+                    if (searchResults.length > 0) {
+                        resultsDiv.style.display = 'block';
+                        searchResults.forEach(item => {
                             const div = document.createElement('div');
                             div.className = 'p-2 border-bottom';
                             div.textContent = `${item.title} (${item.language})`;
@@ -90,18 +121,43 @@
                             });
                             resultsDiv.appendChild(div);
                         });
-                    });
+                    } else {
+                        resultsDiv.style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error fetching search results:', error));
+        });
+    
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form submission
+    
+            const query = document.getElementById('searchInput').value.trim();
+            if (query.length === 0) {
+                return;
+            }
+    
+            // Check if there's an exact match in searchResults
+            const result = searchResults.find(item => item.title.toLowerCase() === query.toLowerCase());
+    
+            if (result) {
+                // If query matches an item, simulate a click on that item
+                window.location.href = `/?language=${result.language}`;
             } else {
-                document.getElementById('searchResults').style.display = 'none';
+                // Show modal if no results found
+                showModal('No results found for your query. Try being more specific.');
             }
         });
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.matches('#searchInput')) {
-                document.getElementById('searchResults').style.display = 'none';
-            }
-        });
+    
+        // Show the modal with a message
+        function showModal(message) {
+            const modalBody = document.getElementById('modalMessageBody');
+            modalBody.textContent = message;
+            const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+            modal.show();
+        }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

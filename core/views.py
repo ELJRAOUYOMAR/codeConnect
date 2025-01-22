@@ -266,11 +266,17 @@ def accept_solution(request, solution_id):
 def search_problems(request):
     query = request.GET.get('q', '')
     if query:
+        # Search for problems with a title, description, language, or tags containing the query
         problems = Problem.objects.filter(
             Q(title__icontains=query) |
             Q(description__icontains=query) |
             Q(language__icontains=query) |
             Q(tags__name__icontains=query)
         ).distinct().values('title', 'language', 'slug')[:5]
-        return JsonResponse(list(problems), safe=False)
-    return JsonResponse([])
+        
+        # If we find matching problems, return them as a JSON response
+        if problems.exists():
+            return JsonResponse({'success': True, 'data': list(problems)}, safe=False)
+        
+        # If no problems match, return a failure message
+        return JsonResponse({'success': False, 'message': 'No results found for your query. Try being more specific.'})
