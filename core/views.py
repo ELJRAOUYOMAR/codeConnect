@@ -242,7 +242,7 @@ def bookmark_problem(request, pk):
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@login_required
+'''@login_required
 def accept_solution(request, solution_id):
     if request.method == 'POST':
         solution = get_object_or_404(Solution, id=solution_id)
@@ -262,7 +262,7 @@ def accept_solution(request, solution_id):
         return JsonResponse({'success': True})
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
-
+'''
 def search_problems(request):
     query = request.GET.get('q', '')
     if query:
