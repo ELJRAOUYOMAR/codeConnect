@@ -188,6 +188,7 @@ def solution_detail(request, pk):
         'solution': solution
     })
 
+"""
 @login_required
 def vote_solution(request, solution_id):
     if request.method == 'POST':
@@ -223,6 +224,7 @@ def vote_solution(request, solution_id):
         })
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
+"""
 
 '''@login_required
 def bookmark_problem(request, pk):
